@@ -1,5 +1,6 @@
 package org.ldv.melun.sio.swingpac;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -26,6 +27,8 @@ public class FenetreMain extends JFrame implements ActionListener {
   static final String ACTION_QUITTER = "Quitter";
 
   static final String ACTION_GO = "Go";
+  
+  static final String ACTION_PAUSE = "pause";
 
   private static final String PACKAGE_BIDULES = "org.ldv.melun.sio.swingpac.etudiants";
 
@@ -84,6 +87,15 @@ public class FenetreMain extends JFrame implements ActionListener {
 
     // TODO : ajouter une commande Pause qui stoppe le timer de tous les objets
     // Bidule.
+    
+    JMenu option = new JMenu("option");
+    option.setMnemonic(KeyEvent.VK_O);
+    JMenuItem test = new JMenuItem("pause", KeyEvent.VK_P);
+    test.setActionCommand(ACTION_PAUSE);
+    // l'instance de cette fenêtre est à l'écoute d'une action sur ce menu
+    test.addActionListener(this);
+    option.add(test);
+    menuBar.add(option);
 
     // on ajoute la barre de menu à la fenêtre
     setJMenuBar(menuBar);
@@ -127,8 +139,14 @@ public class FenetreMain extends JFrame implements ActionListener {
     if (!"".equals(erreurs))
       JOptionPane.showMessageDialog(null, erreurs);
   }
+  
+  private void pause() {
+		// TODO Auto-generated method stub
 
-  /**
+  }
+
+
+/**
    * Appelé par les commandes du menu
    */
   public void actionPerformed(ActionEvent evt) {
@@ -138,7 +156,12 @@ public class FenetreMain extends JFrame implements ActionListener {
       System.exit(0);
     } else if (action.equals(ACTION_GO)) {
       go();
+    } else if (action.equals(ACTION_PAUSE)){
+    	pause();
+ 
     }
   }
+
+
 
 }// FentreMain

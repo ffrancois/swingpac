@@ -111,7 +111,16 @@ public class Bidule extends JPanel {
     this.timer = new Timer(DELAY, new MoveAction());
     this.start();
   }
+  
+  //test pause
+  
+  public void Pause(String name) {
+	    
+	    this.incX = 0;
+	    this.incY = 0;
 
+	  }
+// fin test
   /**
    * Rester dans l'espace de la scene
    */
