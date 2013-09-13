@@ -59,11 +59,13 @@ public class Bidule extends JPanel {
     alea = new Random();
   }
 
-  final int DELAYMAX = 10;
+  final int DELAYMAX = 30;
 
-  final int DELAYMIN = 5;
+  final int DELAYMIN = 20;
 
   final int DELAY;
+  
+  private int impacte =0 ;
 
   /**
    * dimension minimale considérant un bidule en vie
@@ -88,7 +90,7 @@ public class Bidule extends JPanel {
       testWiner();
     }
   }
-
+ 
   /**
    * Constructeur : initialisateur d'instance
    * 
@@ -182,19 +184,27 @@ public class Bidule extends JPanel {
     List<Bidule> bidules = getCollisions();
     for (Bidule bidule : bidules) {
       if (bidule.isGoDown()
-          && bidule.getY() + bidule.getHeight() >= this.getY())
-        bidule.tuEstouchePar(this);
+          && bidule.getY() + bidule.getHeight() >= this.getY()){
+    	  impacte++;
+        bidule.tuEstouchePar(this);}
       else if (bidule.isGoUp()
-          && bidule.getY() <= this.getY() + this.getHeight())
-        bidule.tuEstouchePar(this);
+          && bidule.getY() <= this.getY() + this.getHeight()){
+    	  impacte++;
+    	  bidule.tuEstouchePar(this);
+        }
       else if (bidule.isGoRight()
-          && bidule.getX() + bidule.getWidth() >= this.getX())
-        bidule.tuEstouchePar(this);
+          && bidule.getX() + bidule.getWidth() >= this.getX()){
+    	  impacte++;
+    	  bidule.tuEstouchePar(this);
+        }
       else if (bidule.isGoLeft()
-          && bidule.getX() <= this.getWidth() + this.getX())
-        bidule.tuEstouchePar(this);
+          && bidule.getX() <= this.getWidth() + this.getX()){
+    	  impacte++;
+    	  bidule.tuEstouchePar(this);
+        }
     }
   }
+    
 
   /**
    * Vérifie si l'instance courante gagne la partie. Afffiche un message si
@@ -204,7 +214,7 @@ public class Bidule extends JPanel {
     // le vainqueur est celui qui reste seul
     if (aloneInTheWorld()) {
       timer.stop();
-      JOptionPane.showMessageDialog(getParent(), "GAGNÉ : " + name);
+      JOptionPane.showMessageDialog(getParent(), "GAGNÉ : " + name +"\n il y a eu "+ impacte );
       getParent().remove(this);
     }
   }
@@ -231,7 +241,7 @@ public class Bidule extends JPanel {
   public void tuEstouchePar(Bidule biduleImpacteur) {
     // je retrécis
     this.setBounds(getX() + incX, getY() + incY, getWidth() - 1,
-        getHeight() - 1);
+        getHeight() -1 );
 
     // TODO (plus difficile) : augmenter la taille de biduleImpacteur (dans la
     // limite de la taille initiale)

@@ -1,9 +1,12 @@
 package org.ldv.melun.sio.swingpac;
 
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +32,8 @@ public class FenetreMain extends JFrame implements ActionListener {
   static final String ACTION_GO = "Go";
   
   static final String ACTION_PAUSE = "pause";
+  
+  static final String ACTION_START = "restart";
 
   private static final String PACKAGE_BIDULES = "org.ldv.melun.sio.swingpac.etudiants";
 
@@ -96,6 +101,13 @@ public class FenetreMain extends JFrame implements ActionListener {
     test.addActionListener(this);
     option.add(test);
     menuBar.add(option);
+    
+    JMenuItem test2 = new JMenuItem("restart", KeyEvent.VK_P);
+    test2.setActionCommand(ACTION_START);
+    // l'instance de cette fenêtre est à l'écoute d'une action sur ce menu
+    test2.addActionListener(this);
+    option.add(test2);
+    menuBar.add(option);
 
     // on ajoute la barre de menu à la fenêtre
     setJMenuBar(menuBar);
@@ -106,7 +118,9 @@ public class FenetreMain extends JFrame implements ActionListener {
     // TODO : définir une taille en fonction de la taille de l'écran
     // par exemple le 1/4 de l'écran pour des grands écrans, ou 1/2 ...
     setSize(500, 500);
-
+    	Toolkit t= Toolkit.getDefaultToolkit();
+    	Dimension d= t.getScreenSize();
+    	setSize(d.height/2,d.height/2);
   }
 
   /**
@@ -140,11 +154,35 @@ public class FenetreMain extends JFrame implements ActionListener {
       JOptionPane.showMessageDialog(null, erreurs);
   }
   
-  private void pause() {
+  public void pause() {
 		// TODO Auto-generated method stub
+	  List<Bidule> bidulesPresent = new ArrayList<Bidule>();
 
+	    for (Component obj : this.getContentPane().getComponents()) {
+	      if (obj instanceof Bidule && obj != this){
+
+	          bidulesPresent.add((Bidule) obj);
+	    }
+	   }
+  		for (Bidule bidules : bidulesPresent){
+  			bidules.stop();
+  		}
   }
+  
+  public void restart() {
+		// TODO Auto-generated method stub
+	  List<Bidule> bidulesPresent = new ArrayList<Bidule>();
 
+	    for (Component obj : this.getContentPane().getComponents()) {
+	      if (obj instanceof Bidule && obj != this){
+
+	          bidulesPresent.add((Bidule) obj);
+	    }
+	   }
+		for (Bidule bidules : bidulesPresent){
+			bidules.start();
+		}
+}
 
 /**
    * Appelé par les commandes du menu
@@ -158,7 +196,8 @@ public class FenetreMain extends JFrame implements ActionListener {
       go();
     } else if (action.equals(ACTION_PAUSE)){
     	pause();
- 
+    } else if (action.equals(ACTION_START)){
+    	restart();
     }
   }
 
